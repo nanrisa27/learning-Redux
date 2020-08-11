@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import PostSummary from '../Posts/PostSummary';
 
-class Logout extends Component {
+class Newsfeed extends Component {
     render() {
         return (
             <div>
+                <PostSummary/>
                 
             </div>
         );
     }
 }
 
-export default Logout;
-
+export default Newsfeed;

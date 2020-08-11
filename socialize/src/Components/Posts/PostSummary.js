@@ -2,7 +2,9 @@ import React from 'react';
 
 const PostSummary = () => {
     return (
-        <div>
+        <div className= "container_post">
+            
+            
             
         </div>
     );

@@ -1,24 +1,31 @@
-import React, { Component } from 'react'
-import Logo from "../Layout/Logo"
+import React from 'react';
+import {Link} from "react-router-dom";
+import Logo from "../Layout/Logo";
+ 
 
-export default class NavBar extends Component {
-    render() {
-        return (
-            <nav>
-              <div class="nav-wrapper">
-                 <Logo/>
-                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                   <li><a href="sass.html">Login</a></li>
-                   <li><a href="badges.html">Register</a></li>
-                   <li><a href="collapsible.html">Logout</a></li>
-                 </ul>
-      
+const NavBar = () => {
+    return (
             
-              </div>
-            </nav>
 
+        <nav>
+          <div className="nav-wrapper">
+            <Logo/>
+            
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li><Link to="/Login">Login</Link></li>
+              <li> <Link to="/Register">Register</Link></li>
+              <li><Link to="/Logout">Logout</Link></li>
+                
+               
+                
+                
+          </ul>
+        </div>
+      </nav>
             
             
-        )
-    }
+        
+    );
 }
+
+export default NavBar;
