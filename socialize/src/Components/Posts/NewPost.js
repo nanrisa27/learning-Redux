@@ -17,7 +17,7 @@ const NewPost = () => {
          </div>
       </div>
 
-        <button className="btn waves-effect waves-light" type="submit" name="action">Post
+        <button className="btn waves-effect waves-light" type="submit" name="action" onClick={this.onsubmit}>Post
          
         </button>
         

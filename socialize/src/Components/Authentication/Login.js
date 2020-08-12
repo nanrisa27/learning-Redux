@@ -27,23 +27,23 @@ class Login extends Component {
          <div className="Login-container">
             <h3>Login</h3>
             <form>
-               <div class="row">
-                 <div class="input-field col s5">
-                     <input id="email" type="email" class="validate" onChange={this.onchange}/>
-                     <label for="email">Email or Username</label>
+               <div className="row">
+                 <div className="input-field col s5">
+                     <input id="email" type="email" className="validate" onChange={this.onchange}/>
+                     <label htmlFor="email">Email or Username</label>
                   </div>
                </div>
 
 
-          <div class="row">
-            <div class="input-field col s5">
-               <input id="password" type="password" class="validate"/>
-               <label for="password">Password</label>
+          <div className="row">
+            <div className="input-field col s5">
+               <input id="password" type="password" className="validate"/>
+               <label htmlFor="password">Password</label>
             </div>
          </div>
          
 
-        <button class="btn waves-effect waves-light" type="submit" name="action" onSubmit={this.onsubmit}>Submit
+        <button className="btn waves-effect waves-light" type="submit" name="action" onSubmit={this.onsubmit}>Submit
          
         </button>
         
