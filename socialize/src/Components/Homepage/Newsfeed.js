@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import PostSummary from '../Posts/PostSummary';
+
+import AllPosts from '../Posts/AllPosts';
 
 class Newsfeed extends Component {
     render() {
         return (
             <div>
-                <PostSummary/>
+                <AllPosts/>
                 
             </div>
         );

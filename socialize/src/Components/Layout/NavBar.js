@@ -1,6 +1,7 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import Logo from "../Layout/Logo";
+import RegisteredUser from './RegisteredUser';
+import NonRegisteredUser from './NonRegisteredUser';
  
 
 const NavBar = () => {
@@ -12,9 +13,8 @@ const NavBar = () => {
             <Logo/>
             
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><Link to="/Login">Login</Link></li>
-              <li> <Link to="/Register">Register</Link></li>
-              <li><Link to="/Logout">Logout</Link></li>
+              <RegisteredUser/>
+              <NonRegisteredUser/>
                 
                
                 

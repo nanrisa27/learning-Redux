@@ -4,8 +4,8 @@ class Logo extends Component {
     render() {
         return (
             <div className="brand-logo">
-                
-                <Link to= "/">Logo</Link>
+
+                <Link to= "/">Socialize</Link>
                
             </div>
         );
