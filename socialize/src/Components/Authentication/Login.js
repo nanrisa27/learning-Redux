@@ -72,53 +72,7 @@ class Login extends Component {
 
   
 
-  /* render() {
-    //const { loggingIn } = this.props;
-    //const { email, password, submitted } = this.state;
-      return (
-         <div className="Login-container">
-            <h3>Login</h3>
-            <form>
-               <div className="row">
-                 <div className="input-field col s5">
-                     <div className={'form-group' + (submitted && !email ? ' has-error' : '')}>
-                        <label htmlFor="email">Email</label>
-                        <input type="text" className="form-control" name="email" value={password} onChange={this.handleChange} />
-                        {submitted && !email &&
-                         <div className="help-block">Email is required</div>
-                        }
-                    </div>
-                 </div>
-               </div>
-
-
-          <div className="row">
-            <div className="input-field col s5">
-               <input id="password" type="password" className="validate" value={password} onChange={this.handleChange} />
-               <label htmlFor="password">Password</label>
-            </div>
-         </div>
-         <div className="form-group">
-            <button className="btn btn-primary">Login</button>
-                {loggingIn}
-            
-        </div>
-         
-
-        
-        
-            
-            
-      </form>
-
-            
-         </div>
-      );
-   }
-}*/
-
-//const Auth = firebase.auth(); //
-
+  
 export default Login;
 
 
