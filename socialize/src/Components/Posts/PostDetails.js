@@ -1,12 +1,12 @@
 import React from 'react';
 
-const PostDetails = () => {
+const Postdetails = () => {
     return (
 
         <div className="container">
         <div className="card">
             <div className="card-title">
-                Card title
+                <h3>Card title</h3>
             </div>
             <div className="card-content">
                 <p>
@@ -19,4 +19,4 @@ const PostDetails = () => {
     );
 }
 
-export default PostDetails;
+export default Postdetails;

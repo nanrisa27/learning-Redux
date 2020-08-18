@@ -1,65 +1,71 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Firebase from 'firebase';
 
-class Register extends Component {
-  constructor(props){
-    super()
-    this.state={
-      
+class Register extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmission = this.handleSubmission.bind(this);
     }
-  }
-  /*onsubmit=(e)=>{this.setState
-    ({
-       [e.target.id]: e.target.value
-   });
- }*/
 
-  render() {
-    return (
-      <div className="Register-container">
-        <h3>Register</h3>
-      <div className="row">
-      <form className="col s5">
-      <div className="row">
-        <div className="input-field col s5">
-          <input id="first_name" type="text" className="validate"/>
-          <label htmlFor="first_name">First Name</label>
-        </div>
-        <div className="input-field col s5">
-          <input id="last_name" type="text" className="validate"/>
-          <label htmlFor="last_name">Last Name</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s5">
-          <input id="Username" type="text" className="validate"/>
-          <label htmlFor="Username">Username</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s5">
-          <input id="password" type="password" className="validate"/>
-          <label htmlFor="password">Password</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s5">
-          <input id="email" type="email" className="validate"/>
-          <label htmlFor="email">Email</label>
-        </div>
-      </div>
-      <button className="btn waves-effect waves-light" type="submit" name="action">Register
-          
-      </button>
-    
+    handleChange = (e) => {
+        console.log(this);
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
+    handleSubmission = (e) => {
+        e.preventDefault();
+
+        Firebase.auth().createUserWithEmailAndPassword(
+            this.state.email,
+            this.state.password
+        ).then(resp => {
+            Firebase.firestore().collection('users').doc(resp.user.uid).set({
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                email: this.state.email
+            }).then(() => {
+                console.log('User account created.');
+                console.log(resp.user.uid);
+            })
+            
+            // logged in 
+        }).catch(err => {
+            console.log('Create account fail: ' + err);
+        });
+
         
-      
-    </form>
-    </div>
-  </div>
-        
-    );
-  }
-}
+    }
+
+    render(){
+        return (
+            <div className="container">
+                <form onSubmit={this.handleSubmission}>
+                    <div className="input-field">
+                        <input onChange={this.handleChange} id="firstname" type="text" className="validate"/>
+                        <label htmlFor="firstname">First Name:</label>
+                    </div>
+                    <div className="input-field">
+                        <input onChange={this.handleChange} id="lastname" type="text" className="validate"/>
+                        <label htmlFor="lastname">Last Name:</label>
+                    </div>
+                    <div className="input-field">
+                        <input onChange={this.handleChange} id="email" type="text" className="validate"/>
+                        <label htmlFor="email">Email:</label>
+                    </div>
+                    <div className="input-field">
+                        <input onChange={this.handleChange} id="password" type="password" className="validate"/>
+                        <label htmlFor="password">Password</label>
+                    </div>
+                    <button className="btn waves-effect waves-light" type="submit" name="action">Register</button>
+                </form>
+            </div>
+        );
+    }
+} 
 
 export default Register;
 
@@ -70,15 +76,4 @@ export default Register;
 
 
 
-/*import React from 'react';
 
-const Register = () => {
-    return (
-       
-    
-
-        
-    );
-}
-
-export default Register;*/

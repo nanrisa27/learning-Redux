@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react'
+//import firebase from 'firebase';//
 
-class Logout extends Component {
-    render() {
+class Logout extends React.Component {
+    render(){      
         return (
-            <div>
-                
-            </div>
+            <div className="container">
+                {
+                    this.props.uid ? 
+                    <p>Something went wrong </p> : 
+                    <p>You have sucessfuly logged out</p>
+                } 
+            </div> 
         );
     }
 }

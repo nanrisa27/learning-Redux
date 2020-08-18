@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 import AllPosts from '../Posts/AllPosts';
+import { Redirect } from 'react-router-dom';
 
-class Newsfeed extends Component {
-    render() {
-        return (
-            <div>
-                <AllPosts/>
-                
-            </div>
-        );
-    }
-}
+const Newsfeeds = (props) => (
+    <div className="container">
+        { props.uid ? <AllPosts/> : <Redirect to="/login"/>}      
+    </div>
+    
+)
 
-export default Newsfeed;
+export default Newsfeeds;

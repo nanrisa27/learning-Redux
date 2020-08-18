@@ -1,73 +1,99 @@
-import React from 'react';
+import React, { Component } from 'react';
 import NavBar from "./Components/Layout/NavBar"
 //import Footer from './Components/Layout/Footer';*/
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import "./App.css";
 import Login from './Components/Authentication/Login';
 import Register from './Components/Authentication/Register';
-import Logo from './Components/Layout/Logo';
 import Logout from './Components/Authentication/Logout';
 import NewPost from './Components/Posts/NewPost';
-import Newsfeed from "./Components/Homepage/Newsfeed"
-import PostDetails from './Components/Posts/PostDetails';
-import NonRegisteredUser from './Components/Layout/NonRegisteredUser';
+import Postdetails from './Components/Posts/Postdetails';
+import Newsfeed from "./Components/Homepage/Newsfeed";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import firebase from 'firebase';
 import {FIREBASE_CONFIG as firebaseConfig} from "./config/firebaseConfig";
 
 
-// Initialize Firebase
+//import {connect} from "react-redux";//
+//import { HomePage } from './Components/Homepage/HomePage';//
+
+
+//Initialize Firebase//
+
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-const db =firebase.firestore();
-db.collection('posts').get()
-.then (resp =>{
-  console.log('resp is: ');
-    console.log(resp);
-    console.log('resp.docs is: ');
-    console.log(resp.docs);
-    console.log('resp.docs[0].data()');
-    console.log(resp.docs[0].data());
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      uid: firebase.auth().currentUser
+    };
+  }
 
-})
-.catch(err =>{
-  console.log(err);
-})
+  componentDidMount = () => {
+    this.setState({
+      uid: firebase.auth().currentUser ? firebase.auth().currentUser.uid : null
+    });
 
+    firebase.auth().onAuthStateChanged(user => {
+      // only executes when there has been changes to the user login status
 
-function App() {
-  return (
-     <div>
+      // user is now logged in, previously not
+      if (user && this.state.uid === null) {
+        this.setState({
+          uid: user.uid
+        })
+
+      // user is now not logged in, and previously was
+      } else if (!user && this.state.uid !== null) {
+        this.setState({
+          uid: null
+        })
+      }
+    });
+  }
+
+  render(){
+    return (
       <Router>
-    
         <div className="App">
-          <NavBar/>
-          <Switch>
-            <Route exact path="/"  component={Logo}/>
-            <Route exact path="/Login" component={Login}/>
-            <Route exact path="/Register" component={Register}/>
-            <Route exact path="/Logout" component={Logout}/>
-            <Route exact path="/NewPost" component={NewPost}/>
-            <Route exact path="/Post/:id" component={PostDetails}/>
-            <Route exact path="/NonRegistredUser" component={NonRegisteredUser}/>
-            
-          </Switch>     
+          <div className="container">
+            <NavBar uid={this.state.uid}/>
 
-         
-    
-        
-       
-     
+            <Switch>
+              <Route exact path="/" render={() => {
+                return <Newsfeed uid={this.state.uid} />
+              }}></Route>
 
-        
-       
-    
+              <Route exact path="/create" render={() => {
+                return <NewPost uid={this.state.uid} />
+              }}></Route>
+
+              <Route exact path="/register" component={Register}></Route>
+              <Route exact path="/login" component={Login}></Route>
+
+              <Route exact path="/logout" render={() => {
+                return <Logout uid={this.state.uid} />
+              }}></Route>
+              <Route exact path="/post/:id" component={Postdetails}></Route>
+            </Switch>       
+          </div>
         </div>
-  </Router>
-  <Newsfeed/>
-
-  </div>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;
+
+     
+
+    
+   
+ 
+
+    
+   
+
+   
+

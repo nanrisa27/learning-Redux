@@ -1,31 +1,27 @@
-import React from 'react';
-import Logo from "../Layout/Logo";
-import RegisteredUser from './RegisteredUser';
+import React from 'react'
+import Logo from './Logo';
 import NonRegisteredUser from './NonRegisteredUser';
- 
+import RegisteredUser from './RegisteredUser';
 
-const NavBar = () => {
-    return (
-            
-
-        <nav>
-          <div className="nav-wrapper">
-            <Logo/>
-            
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <RegisteredUser/>
-              <NonRegisteredUser/>
-                
-               
-                
-                
-          </ul>
-        </div>
-      </nav>
-            
-            
-        
-    );
+class NavBar extends React.Component {
+    render(){
+        return(
+            <nav className="nav-wrapper">
+                <div className="container">
+                    <Logo></Logo>
+                    { 
+                        this.props.uid ? 
+                        <ul className="right hide-on-med-and-down">
+                            <RegisteredUser/>
+                        </ul> : 
+                        <ul className="right hide-on-med-and-down">
+                            <NonRegisteredUser/>
+                        </ul>
+                    }    
+                </div>    
+            </nav>
+        )
+    }
 }
 
 export default NavBar;
