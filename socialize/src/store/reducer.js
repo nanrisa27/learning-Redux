@@ -1,25 +1,34 @@
-const reducer = (state = initialState, action) =>{
-    /*if (action.type === "INCREMENT"){
-        return{
-            ...state, counter:state.counter + 1,
-        }
-    }*/
-    return state;
-};
+const currentTime = new Date();
 
-const initialState={
+const initialState = {
     posts: [
-        {id:"first", title:"sample title", content: "1", time:"current time"},
-        {id:"second", title:"sample title", content: "1", time:"current time"},
-        {id:"third", title:"sample title", content: "1", time:"current time"},
-        {id:"fourth", title:"sample title", content: "1", time:"current time"},
-        {id:"fith", title:"sample title", content: "1", time:"current time"},
-        {id:"sixth", title:"sample title", content: "1", time:"current time"},
-        
-       
-        
-    ]
+
+    ],
+    userData: {},
+    userActionErr: null
 };
 
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case 'CREATE_NEW_POST':
+            console.log('A new post has been added')
+            return state;
+
+        case 'CREATE_NEW_POST_FAIL':
+            console.log('An error has occurred: ' + action.err.message);
+            return {
+                ...state,
+                userActionErr: action.err.message
+            };
+
+        case 'REMOVE_ALL_POSTS':
+            return {
+                ...state,
+                posts: []
+            }
+        default:
+            return state;
+    }
+}
 
 export default reducer;

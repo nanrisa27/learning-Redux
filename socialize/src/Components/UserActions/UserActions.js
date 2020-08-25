@@ -1,19 +1,13 @@
-import React, { Component } from 'react';
-//import firebase from "firebase";//
+import firebase from 'firebase';
 
-
-
-
-
-class UserActions extends Component {
-    render() {
-        return (
-            <div>
-                
-            </div>
-        );
+export const createPost = (post) => {
+    return (dispatch) => {
+        firebase.firestore().collection('posts').add(post)
+            .then(() => {
+                dispatch({ type: 'CREATE_POST_SUCCESSFUL' })
+            }).catch(err => {
+                dispatch({ type: 'CREATE_POST_ERROR' }, err)
+            })
     }
 }
-
-export default UserActions;
 

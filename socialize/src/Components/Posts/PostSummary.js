@@ -1,16 +1,14 @@
 import React from 'react'
 
-const PostSummary = (props) => {
-    return (
-        <div className="card post">
-            <div className="card-title">{props.post.title}</div>
-            <div className="card-content">
-                <p>{props.post.content}</p>
-                <p className="grey">{props.post.time.toString()}</p>
-                <p className="grey">{props.post.uid}</p>
+class PostSummary extends React.Component {
+    render(){
+        return (
+            <div className="card post">
+                <div className="card-title">{this.props.post.title}</div>
+                <div className="card-content">{this.props.post.content}</div>
             </div>
-        </div>
-    )
-}
+        )
+    }
+} 
 
 export default PostSummary;

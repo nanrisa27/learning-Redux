@@ -1,19 +1,15 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom';
-import firebase from 'firebase';
+import { connect } from 'react-redux'
 
-class NewPost extends React.Component {
+class NewPost extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            posted: false
-        };
+        this.state = {};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmission = this.handleSubmission.bind(this);
     }
 
     handleChange = (e) => {
-        console.log(this);
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -21,43 +17,45 @@ class NewPost extends React.Component {
 
     handleSubmission = (e) => {
         e.preventDefault();
-
-        firebase.firestore().collection('posts').add({
+        this.props.createPost({
             title: this.state.postTitle,
-            content: this.state.postContent,
-            time: new Date(),
-            user: firebase.auth().currentUser.uid
-        }).then(() => {
-            this.setState({
-                posted: true
-            })
-        })
+            content: this.state.postContent
+        });
     }
 
-    render() {
-        return(
+    render(){
+        return (
             <div className="container">
-                { this.state.posted ? <Redirect to="/"/> : '' }
-                {   
-                    !this.props.uid ?
-                    <Redirect to="/login"/> :
-                    <form onSubmit={this.handleSubmission}>
-                        <div className="input-field">
-                            <input onChange={this.handleChange} id="postTitle" type="text" className="validate"/>
-                            <label htmlFor="postTitle">Title:</label>
-                        </div>
-                        <div className="input-field">
-                            <textarea onChange={this.handleChange} id="postContent" className="materialize-textarea" data-length="500"></textarea>
-                            <label htmlFor="postContent">Content:</label>
-                        </div>
-
-                        <button className="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-                    </form>
-                }
+                <form onSubmit={this.handleSubmission}>
+                    <div className="input-field">
+                        <input id="postTitle" type="text" className="validate" onChange={this.handleChange}/>
+                        <label htmlFor="postTitle">Title:</label>
+                    </div>
+                    <div className="input-field">
+                        <textarea id="postContent" className="materialize-textarea" data-length="500" onChange={this.handleChange}></textarea>
+                        <label htmlFor="postContent">Content:</label>
+                    </div>
+        
+                    <button className="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                </form>
             </div>
-        )
+        );
+    }
+} 
+// when to dispatch the action?
+// what is the name of the props to be called so that the action is dispatched
+// is there a payload to be dispatched together with the action?
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createPost: (post) => {
+            console.log(post);
+            return dispatch({ 
+                type: 'CREATE_NEW_POST', 
+                post: post
+            }) 
+        }  
     }
 }
 
-
-export default NewPost;
+export default connect(null, mapDispatchToProps)(NewPost);

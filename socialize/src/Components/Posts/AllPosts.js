@@ -1,40 +1,36 @@
 import React from 'react'
 import PostSummary from './PostSummary'
-import firebase from 'firebase'
+import { connect } from 'react-redux'
 
 class AllPosts extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            posts: null
-        };
-    }
-
-    componentDidMount = () => {
-        firebase.firestore().collection('posts').get()
-            .then(resp => {
-                this.setState({
-                    posts: resp.docs
-                })
-            })
-            .catch(err => {
-                console.log(err.message);
-            });
-    }
-
     render(){
-        
-        var x = 0;
         return (
             <div>
+                <button className="btn" onClick={this.props.removePost}>Delete All Posts</button>
                 { 
-                    this.state.posts ? 
-                    this.state.posts.map(post => <PostSummary post={post.data()} key={x++}/>):
-                    'Loading....'
+                    this.props.posts ? 
+                    this.props.posts.map(post => 
+                        <PostSummary post={post} key={Math.random()*99}/>
+                    ) :
+                    'Loading ....'
                 }
             </div>
         )
     }
-} 
+}
 
-export default AllPosts;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removePost: () => {
+            dispatch({ type: 'REMOVE_ALL_POSTS' });
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllPosts);
