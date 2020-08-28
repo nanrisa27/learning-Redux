@@ -4,11 +4,7 @@ import App from './App';
 import { createStore } from "redux"
 import reducer from './store/reducer';
 import { Provider } from "react-redux";
-import {
-  createStore,
-  applyMiddleware, // new
-  compose // new
-} from 'redux';
+import { applyMiddleware, compose } from 'redux'; //new
 import thunk from "redux-thunk";
 import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore' // new
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase' // new
@@ -17,7 +13,7 @@ import { FIREBASE_CONFIG as firebaseConfig } from './config/firebaseConfig' // n
 
 
 const store = createStore(
-  reducers,
+  reducer,
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })), // new
     reduxFirestore(firebase, firebaseConfig) // new
