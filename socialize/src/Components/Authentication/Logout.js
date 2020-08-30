@@ -1,19 +1,40 @@
 import React from 'react'
-//import firebase from 'firebase';//
+import { logOut } from '../../store/authActions'
+import { connect } from 'react-redux'
 
-class Logout extends React.Component {
-    render(){      
+class Register extends React.Component {
+
+    componentDidMount = () => {
+        this.props.logOut();
+    }
+
+    render() {
         return (
-            <div className="container">
+            <div>
                 {
-                    this.props.uid ? 
-                    <p>Something went wrong </p> : 
-                    <p>You have sucessfuly logged out</p>
-                } 
-            </div> 
+                    this.props.loginStatus ?
+                        <div>Logout fail</div> :
+                        <div>Logout success</div>
+                }
+            </div>
+
         );
+
     }
 }
 
-export default Logout;
+const mapStateToProps = (state) => {
+    return {
+        loginStatus: !state.firebase.auth.isEmpty
+    }
+}
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logOut: () => {
+            dispatch(logOut());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

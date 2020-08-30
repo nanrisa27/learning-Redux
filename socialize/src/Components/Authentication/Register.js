@@ -31,41 +31,51 @@ class Register extends React.Component {
                 console.log('User account created.');
                 console.log(resp.user.uid);
             })
-            
+
             // logged in 
         }).catch(err => {
             console.log('Create account fail: ' + err);
         });
 
-        
+
     }
 
-    render(){
+    render() {
+        const { registering } = this.props;
+        const { user, submitted } = this.state;
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmission}>
                     <div className="input-field">
-                        <input onChange={this.handleChange} id="firstname" type="text" className="validate"/>
+                        <input onChange={this.handleChange} id="firstname" type="text" className="validate" />
                         <label htmlFor="firstname">First Name:</label>
+                        {submitted && !user.firstName &&
+                            <div className="help-block">First Name is required</div>}
                     </div>
                     <div className="input-field">
-                        <input onChange={this.handleChange} id="lastname" type="text" className="validate"/>
+                        <input onChange={this.handleChange} id="lastname" type="text" className="validate" />
                         <label htmlFor="lastname">Last Name:</label>
+                        {submitted && !user.lastname &&
+                            <div className="help-block">First Name is required</div>}
                     </div>
                     <div className="input-field">
-                        <input onChange={this.handleChange} id="email" type="text" className="validate"/>
+                        <input onChange={this.handleChange} id="email" type="text" className="validate" />
                         <label htmlFor="email">Email:</label>
+                        {submitted && !user.email &&
+                            <div className="help-block">First Name is required</div>}
                     </div>
                     <div className="input-field">
-                        <input onChange={this.handleChange} id="password" type="password" className="validate"/>
+                        <input onChange={this.handleChange} id="password" type="password" className="validate" />
                         <label htmlFor="password">Password</label>
+                        {submitted && !user.password &&
+                            <div className="help-block">First Name is required</div>}
                     </div>
                     <button className="btn waves-effect waves-light" type="submit" name="action">Register</button>
                 </form>
             </div>
         );
     }
-} 
+}
 
 export default Register;
 

@@ -4,19 +4,19 @@ import App from './App';
 import { createStore } from "redux"
 import reducer from './store/reducer';
 import { Provider } from "react-redux";
-import { applyMiddleware, compose } from 'redux'; //new
+import { applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore' // new
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase' // new
-import firebase from 'firebase/app' // new
-import { FIREBASE_CONFIG as firebaseConfig } from './config/firebaseConfig' // new
+import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
+import firebase from 'firebase/app'
+import { FIREBASE_CONFIG as firebaseConfig } from './config/firebaseConfig'
 
 
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })), // new
-    reduxFirestore(firebase, firebaseConfig) // new
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    reduxFirestore(firebase, firebaseConfig)
   )
 );
 
@@ -24,10 +24,10 @@ const store = createStore(
 
 ReactDOM.render(<Provider store={store}>
   <ReactReduxFirebaseProvider
-    firebase={firebase} // new
-    config={firebaseConfig} // new
-    dispatch={store.dispatch} // new
-    createFirestoreInstance={createFirestoreInstance} // new
+    firebase={firebase}
+    config={firebaseConfig}
+    dispatch={store.dispatch}
+    createFirestoreInstance={createFirestoreInstance}
   >
 
 

@@ -8,9 +8,10 @@ import Logout from './Components/Authentication/Logout';
 import NewPost from './Components/Posts/NewPost';
 import Postdetails from './Components/Posts/Postdetails';
 import Newsfeed from "./Components/Homepage/Newsfeed";
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import firebase from 'firebase';
-import {FIREBASE_CONFIG as firebaseConfig} from "./config/firebaseConfig";
+import { FIREBASE_CONFIG as firebaseConfig } from "./config/firebaseConfig";
+
 
 
 //import {connect} from "react-redux";//
@@ -44,7 +45,7 @@ class App extends Component {
           uid: user.uid
         })
 
-      // user is now not logged in, and previously was
+        // user is now not logged in, and previously was
       } else if (!user && this.state.uid !== null) {
         this.setState({
           uid: null
@@ -53,12 +54,12 @@ class App extends Component {
     });
   }
 
-  render(){
+  render() {
     return (
       <Router>
         <div className="App">
           <div className="container">
-            <NavBar uid={this.state.uid}/>
+            <NavBar uid={this.state.uid} />
 
             <Switch>
               <Route exact path="/" render={() => {
@@ -76,7 +77,9 @@ class App extends Component {
                 return <Logout uid={this.state.uid} />
               }}></Route>
               <Route exact path="/post/:id" component={Postdetails}></Route>
-            </Switch>       
+              <Redirect from="*" to="/" />
+
+            </Switch>
           </div>
         </div>
       </Router>
@@ -86,14 +89,14 @@ class App extends Component {
 
 export default App;
 
-     
 
-    
-   
- 
 
-    
-   
 
-   
+
+
+
+
+
+
+
 

@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+/*import firebase from 'firebase';
 
 export const createPost = (post) => {
     return (dispatch) => {
@@ -10,4 +10,9 @@ export const createPost = (post) => {
             })
     }
 }
+
+export const userAction = () => {
+
+}*/
+
 

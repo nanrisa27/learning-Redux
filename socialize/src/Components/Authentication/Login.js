@@ -1,68 +1,91 @@
-import React, { Component } from 'react';
-import firebase from "firebase";
+import React from 'react';
+import { logIn } from '../../store/authActions'
+import { connect } from 'react-redux'
 
-
-
-
-
-class Login extends Component {
+class LogIn extends React.Component {
     constructor(props) {
         super(props);
+
+        // reset login status
+        //this.props.logout();
+
         this.state = {
-            email: "",
-            Password: "",
+            email: null,
+            password: null,
             submitted: false
+        };
 
-        }
-        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmission = this.handleSubmission.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
 
-    };
+    handleChange = (e) => {
+        console.log(this);
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
 
     handleSubmission = (e) => {
         e.preventDefault();
-
-        firebase.auth().signInWithEmailAndPassword(
-            this.state.email,
-            this.state.password
-        ).then(() => {
-            console.log('Login success');
-        }).catch(err => {
-            console.log('Login failed: ' + err);
-        });
-    }
-
-
-    handleChange = (e) => {
-        e.preventDefault();
-        console.log(this.state);
-
+        this.props.logIn(this.state);
+        this.setState({ submitted: true });
+        const { email, password } = this.state;
+        if (email && password) {
+            this.props.logIn(email, password);
+        }
     };
 
-
     render() {
+        const { loggingIn } = this.props;
+        const { email, password, submitted } = this.state;
+
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmission}>
-                    <div className="input-field">
-                        <input id="email" type="text" className="validate" onChange={this.handleChange} />
-                        <label htmlFor="email">Email:</label>
-                    </div>
-                    <div className="input-field">
-                        <input id="password" type="password" className="validate" onChange={this.handleChange} />
-                        <label htmlFor="password">Password</label>
-                    </div>
-                    <button className="btn waves-effect waves-light" type="submit" name="action">Log In</button>
-                </form>
+                {
+                    this.props.loginStatus ?
+                        <div>You are now logged in</div> :
+                        <form onSubmit={this.handleSubmission}>
+                            <div className="input-field">
+                                <input id="email" type="text" className="validate" onChange={this.handleChange} />
+                                <label htmlFor="email">Email</label>
+                                {submitted && !email &&
+                                    <div className="help-block">Email is required</div>
+                                }
+                            </div>
+                            <div className="input-field">
+                                <input id="password" type="password" className="validate" onChange={this.handleChange} />
+                                <label htmlFor="password">Password</label>
+                                {submitted && !password &&
+                                    <div className="help-block">Password is required</div>
+                                }
+                            </div>
+                            <button className="btn waves-effect waves-light" type="submit" name="action" >Log In</button>
+                            {loggingIn}
+                        </form>
+                }
+
             </div>
         )
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        loginStatus: !state.firebase.auth.isEmpty
+    }
+}
 
 
+const mapDispatchToProps = dispatch => {
+    return {
+        logIn: credentials => {
+            dispatch(logIn(credentials));
+        }
+    }
+}
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 
 
 
