@@ -14,9 +14,6 @@ import { FIREBASE_CONFIG as firebaseConfig } from "./config/firebaseConfig";
 
 
 
-//import {connect} from "react-redux";//
-//import { HomePage } from './Components/Homepage/HomePage';//
-
 
 //Initialize Firebase//
 

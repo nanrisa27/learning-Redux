@@ -14,7 +14,7 @@ class Register extends React.Component {
                 {
                     this.props.loginStatus ?
                         <div>Logout fail</div> :
-                        <div>Logout success</div>
+                        <div>successfuly loggedout</div>
                 }
             </div>
 

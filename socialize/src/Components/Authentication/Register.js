@@ -41,10 +41,13 @@ class Register extends React.Component {
     }
 
     render() {
+        //error message desplay to user if input fields have errors
         const { registering } = this.props;
         const { user, submitted } = this.state;
         return (
             <div className="container">
+                <h3>Register</h3>
+
                 <form onSubmit={this.handleSubmission}>
                     <div className="input-field">
                         <input onChange={this.handleChange} id="firstname" type="text" className="validate" />
@@ -71,7 +74,9 @@ class Register extends React.Component {
                             <div className="help-block">First Name is required</div>}
                     </div>
                     <button className="btn waves-effect waves-light" type="submit" name="action">Register</button>
+
                 </form>
+
             </div>
         );
     }

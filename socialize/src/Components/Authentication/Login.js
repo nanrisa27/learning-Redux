@@ -1,6 +1,7 @@
 import React from 'react';
 import { logIn } from '../../store/authActions'
 import { connect } from 'react-redux'
+import "../../Styling/CSS/HomePage.css"
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -42,6 +43,7 @@ class LogIn extends React.Component {
 
         return (
             <div className="container">
+                <h3>Login</h3>
                 {
                     this.props.loginStatus ?
                         <div>You are now logged in</div> :
@@ -50,7 +52,7 @@ class LogIn extends React.Component {
                                 <input id="email" type="text" className="validate" onChange={this.handleChange} />
                                 <label htmlFor="email">Email</label>
                                 {submitted && !email &&
-                                    <div className="help-block">Email is required</div>
+                                    <div className=" danger-error">Email is required</div>
                                 }
                             </div>
                             <div className="input-field">
