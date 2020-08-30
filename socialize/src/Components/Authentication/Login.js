@@ -42,30 +42,38 @@ class LogIn extends React.Component {
         const { email, password, submitted } = this.state;
 
         return (
-            <div className="container">
-                <h3>Login</h3>
-                {
-                    this.props.loginStatus ?
-                        <div>You are now logged in</div> :
-                        <form onSubmit={this.handleSubmission}>
-                            <div className="input-field">
-                                <input id="email" type="text" className="validate" onChange={this.handleChange} />
-                                <label htmlFor="email">Email</label>
-                                {submitted && !email &&
-                                    <div className=" danger-error">Email is required</div>
-                                }
-                            </div>
-                            <div className="input-field">
-                                <input id="password" type="password" className="validate" onChange={this.handleChange} />
-                                <label htmlFor="password">Password</label>
-                                {submitted && !password &&
-                                    <div className="help-block">Password is required</div>
-                                }
-                            </div>
-                            <button className="btn waves-effect waves-light" type="submit" name="action" >Log In</button>
-                            {loggingIn}
-                        </form>
-                }
+            <div className="root-container">
+                <div className="box-controller">
+                    <div className="controller">
+                        <div className="box-container">
+                            <h3 className="login_lable">Login</h3>
+                            {
+                                this.props.loginStatus ?
+                                    <div >You are now logged in</div> :
+
+                                    <form onSubmit={this.handleSubmission}>
+                                        <div className="">
+                                            <input id="email" type="text" className="" onChange={this.handleChange} />
+                                            <label htmlFor="email">Email</label>
+                                            {submitted && !email &&
+                                                <div className=" danger-error">Email is required</div>
+                                            }
+                                        </div>
+                                        <div className="">
+                                            <input id="password" type="password" className="" onChange={this.handleChange} />
+                                            <label htmlFor="password">Password</label>
+                                            {submitted && !password &&
+                                                <div className="danger-error">Password is required</div>
+                                            }
+                                        </div>
+                                        <button className="login-btn" type="submit" name="action" >Log In</button>
+                                        {loggingIn}
+                                    </form>
+                            }
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
         )

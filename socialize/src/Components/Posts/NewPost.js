@@ -1,8 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { newPost } from "../../store/PostActions";
+import { Redirect } from "react-router-dom";
 
-class NewPost extends React.Component{
-    constructor(props){
+class NewPost extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {};
         this.handleChange = this.handleChange.bind(this);
@@ -17,45 +19,49 @@ class NewPost extends React.Component{
 
     handleSubmission = (e) => {
         e.preventDefault();
-        this.props.createPost({
-            title: this.state.postTitle,
+        this.props.NewPost({
+            title: this.state.title,
             content: this.state.postContent
         });
+        this.props.history.push('/')
     }
 
-    render(){
+    render() {
+        const auth = this.props;
+        if (!auth.Uid) return <Redirect to='/Login' />
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmission}>
                     <div className="input-field">
-                        <input id="postTitle" type="text" className="validate" onChange={this.handleChange}/>
-                        <label htmlFor="postTitle">Title:</label>
+                        <input id="postTitle" type="text" className="validate" onChange={this.handleChange} />
+                        <label htmlFor="title">Title:</label>
                     </div>
                     <div className="input-field">
                         <textarea id="postContent" className="materialize-textarea" data-length="500" onChange={this.handleChange}></textarea>
-                        <label htmlFor="postContent">Content:</label>
+                        <label htmlFor="content">Content:</label>
                     </div>
-        
-                    <button className="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+
+                    <button className="btn waves-effect waves-light" type="submit" name="action">Post</button>
                 </form>
             </div>
         );
     }
-} 
-// when to dispatch the action?
-// what is the name of the props to be called so that the action is dispatched
-// is there a payload to be dispatched together with the action?
+}
+
+
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createPost: (post) => {
-            console.log(post);
-            return dispatch({ 
-                type: 'CREATE_NEW_POST', 
-                post: post
-            }) 
-        }  
+        NewPost: (post) => {
+            dispatch(NewPost(post))
+        }
     }
 }
 
-export default connect(null, mapDispatchToProps)(NewPost);
+export default connect(null, mapDispatchToProps, mapStateToProps)(NewPost);

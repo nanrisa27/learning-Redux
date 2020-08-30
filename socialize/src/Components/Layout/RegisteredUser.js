@@ -1,26 +1,28 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import firebase from 'firebase';
+import { logOut } from "../../store/authActions"
+import { connect } from "react-redux"
+import Logout from '../Authentication/Logout';
 
-class RegisteredUser extends React.Component {
-    logOut = () => {
-        firebase.auth().signOut()
-            .then(resp => {
-                console.log('User has been logged out');     
-            }).catch(err => {
-                console.log('Some error has occurred while logging out');
-            });
-    }
+const RegisteredUser = (props) => {
+    return (
+        <div>
+            <li><NavLink to="/Logout" onClick={props.logOut}>Logout</NavLink></li>
+            <li><NavLink to="/NewPost">Create new post</NavLink></li>
+            <li><NavLink onClick={props.logOut} to="/Logout" /></li>
 
-    render(){
-        return (
-            <div>
-                <li><NavLink to="/logout" onClick={this.logOut}>Logout</NavLink></li> 
-                <li><NavLink to="/create">Create new post</NavLink></li> 
-                
-            </div>
-        )
+        </div>
+    )
+
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logOut: () => dispatch(Logout)
     }
 }
 
-export default RegisteredUser;
+
+
+export default connect(mapDispatchToProps)(RegisteredUser);

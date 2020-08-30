@@ -5,18 +5,24 @@ import { removePosts, getPosts } from '../../store/PostActions'
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 
+
 class AllPosts extends React.Component {
     render() {
+        const { posts } = this.props;
+        const { removePost } = this.props
         return (
-            <div>
-                <button className="btn" onClick={this.props.removePost}>Remove All Post</button>
-                {
-                    this.props.posts ?
-                        Object.keys(this.props.posts).map((postId, index) =>
-                            <PostSummary post={this.props.posts[postId]} postId={postId} key={index} />
-                        ) :
-                        'Loading ....'
-                }
+            <div className="posts-container">
+                <button className="btn" onClick={removePost}>Clear All Post</button>
+                {posts && posts.map(post => {
+
+                    return (
+                        <PostSummary post={post} key={post.id} />
+                    )
+
+                })}
+
+
+
             </div>
         )
     }
@@ -41,8 +47,10 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
+// using the connect tool to connect AllPosts to the fedux store
 
 export default compose(
-    firestoreConnect(() => ['posts']),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps), firestoreConnect([
+        { collection: 'posts', orderBy: ['createdAt', 'desc'] }
+    ])
 )(AllPosts);

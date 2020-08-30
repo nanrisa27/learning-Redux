@@ -1,59 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react'
+import AllPosts from '../Posts/AllPosts'
+import notifications from '../Homepage/noticications';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux'
+import { Redirect } from 'react-router-dom';
 
-//import  userActions  from '../UserActions/UserActions';
-
-class HomePage extends React.Component {
-    componentDidMount() {
-        this.props.getUsers();
-    }
-
-    handleDeleteUser(id) {
-        return (e) => this.props.deleteUser(id);
-    }
-
+class HomePage extends Component {
     render() {
-        const { user, users } = this.props;
+        const { posts, auth, notifications } = this.props;
+        if (!auth.uid) return <Redirect to="/Login" />
+
+
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h1>Hi {user.firstName}!</h1>
-                <p>You're logged in </p>
-                <h3>All registered users:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-                {users.items &&
-                    <ul>
-                        {users.items.map((user, index) =>
-                            <li key={user.id}>
-                                {user.firstName + ' ' + user.lastName}
-                                {
-                                    user.deleting ? <em> - Deleting...</em>
-                                        : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                            : <span> - <a href="{./}" onClick={this.handleDeleteUser(user.id)} >Delete</a></span>
-                                }
-                            </li>
-                        )}
-                    </ul>
-                }
-                <p>
-                    <Link to="/login">Logout</Link>
-                </p>
+            <div className="container">
+                <div className="row">
+                    <div className="col s12 m6">
+                        <AllPosts posts={posts} />
+                    </div>
+                    <div className="col s12 m5 offset-m1">
+                        <notifications notifications={notifications} />
+                    </div >
+                </div>
             </div>
-        );
+        )
     }
 }
 
-function mapStatetoProps(state) {
-    const { users, authentication } = state;
-    const { user } = authentication;
-    return { user, users };
+const mapStateToProps = (state) => {
+    return {
+
+        auth: state.firebase.auth,
+        notifications: state.firestore.ordered.notifications
+    }
 }
 
-const actionCreators = {
-    getUsers: userActions.getAll,
-    deleteUser: userActions.delete
-}
 
-const connectedHomePage = connect(mapStatetoProps, actionCreators)(HomePage);
-export { connectedHomePage as HomePage };
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+        { collection: 'notifications', limit: 5, orderBy: ['time', 'desc'] },
+    ])
+)(HomePage)
