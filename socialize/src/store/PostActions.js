@@ -2,11 +2,16 @@ export const removePosts = () => ({ type: 'REMOVE_ALL_POSTS' })
 
 // export const createPost = post => ({ type: 'CREATE_NEW_POST', post })
 
-export const NewPost = (post) => {
-    return (dispatch, getState, storeEnhancers) => {
-        storeEnhancers.getFirestore().collection('posts').add(post)
+export const newPost = (post) => {
+    return (dispatch, getState, { getFirestore, getFirebase }) => {
+        const firestore = getFirestore();
+        const authorId = getState().firebase.auth.authorId
+
+        firestore
+            .collection("posts")
+            .add({ ...post, authorId: authorId, created_at: new Date() })
             .then(() => {
-                dispatch({ type: 'CREATE_NEW_POST' })
+                dispatch({ type: 'CREATE_NEW_POST', post });
             })
             .catch(err => {
                 dispatch({ type: 'CREATE_NEW_POST_FAILED', err: err })
@@ -14,9 +19,14 @@ export const NewPost = (post) => {
     };
 }
 
-export const getPosts = () => {
-    return (dispatch, getState, storeEnhancers) => {
-        storeEnhancers.getFirestore().collection('posts').get()
+export const getPosts = (post) => {
+    return (dispatch, getState, { getFirestore, getFirebase }) => {
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+
+        firestore
+            .collection('posts')
+            .get()
             .then(resp => {
                 dispatch({
                     type: 'FETCHED_POSTS_SUCCESS',

@@ -1,4 +1,4 @@
-import { firebaseReducer } from 'react-redux-firebase'
+import { firebaseReducer, firestoreReducer } from 'react-redux-firebase'
 import { combineReducers } from 'redux'
 
 const initialState = {
@@ -13,6 +13,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN_ERROR':
+            console.log("login error");
             return {
                 ...state,
                 userActionErr: action.error.code
@@ -23,6 +24,16 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 loginStatus: true
             };
+        case "SIGNUP_SUCCESS":
+            return {
+                ...state,
+                authError: null
+            }
+        case "SIGNUP_ERROR":
+            return {
+                ...state,
+                authError: action.err.message
+            }
         default:
             return state;
     }
@@ -57,10 +68,11 @@ const postReducer = (state = initialState, action) => {
     }
 }
 
-const rootReducers = combineReducers({
+const reducer = combineReducers({
     auth: authReducer,
     post: postReducer,
-    firebase: firebaseReducer
+    firebase: firebaseReducer,
+    firestore: firestoreReducer
 })
 
-export default rootReducers;
+export default reducer;

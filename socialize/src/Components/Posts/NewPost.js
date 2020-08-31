@@ -19,7 +19,7 @@ class NewPost extends React.Component {
 
     handleSubmission = (e) => {
         e.preventDefault();
-        this.props.NewPost({
+        this.props.newPost({
             title: this.state.title,
             content: this.state.postContent
         });
@@ -28,6 +28,7 @@ class NewPost extends React.Component {
 
     render() {
         const auth = this.props;
+
         if (!auth.Uid) return <Redirect to='/Login' />
         return (
             <div className="container">
@@ -58,10 +59,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        NewPost: (post) => {
+        newPost: (post) => {
             dispatch(NewPost(post))
         }
     }
 }
 
-export default connect(null, mapDispatchToProps, mapStateToProps)(NewPost);
+export default connect(mapDispatchToProps, mapStateToProps)(NewPost);
